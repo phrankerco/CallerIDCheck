@@ -9,9 +9,9 @@ Two BASH scripts to interface with Asterisk to auto dial a list of numbers using
 Use the scripts
 
 1. Modify both lists with the numbers you need to check and call
-a. callerids.list -- list of outbound called IDs the calls will come from
-b. testphones.list -- list of phone numbers to call using the oubound caller IDs from the above list for each call
-2. ./autocalleridcheck
+2. callerids.list -- list of outbound called IDs the calls will come from
+3. testphones.list -- list of phone numbers to call using the oubound caller IDs from the above list for each call
+4. ./autocalleridcheck
 
 or
 
