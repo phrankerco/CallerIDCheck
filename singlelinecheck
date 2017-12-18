@@ -22,8 +22,8 @@
 # EXAMPLE
 # ---------
 #
-# ./singlelinecheck 303-862-3101 970-420-4200
-# ./singlelinecheck 3038623101 9704204200
+# ./singlelinecheck 303-303-3031 970-970-9700
+# ./singlelinecheck 3033033031 9709709700
 
 
 print_syntax_message () {
@@ -37,9 +37,9 @@ echo
 echo    EXAMPLE
 echo  -----------
 echo
-echo $0 303-862-3101 970-420-4200         
+echo $0 303-303-3031 970-970-9700         
 echo -or-
-echo $0 3038623101 9704204200
+echo $0 3033033031 9709709700
 echo
 echo
 }                                                                                                                        
