@@ -1,0 +1,83 @@
+#!/bin/bash
+
+#
+# Auto Outbound Caller ID Check
+#
+# written by Frank Baris
+#
+#
+# v.01 - 12/14/17 -- start 
+# v.02 - 12/15/17 -- end
+#
+# ~~ 2h:36m total time to build/test/document script ~~
+#
+
+#
+#
+# ./autocalleridcheck
+#
+#
+# 1. add each caller id to "callerids.list"
+# 2. add each test phone number to "testphones.list" 
+# 3. execute script from within directory as it runs local and no paths are used in the script
+#
+# Press CTRL-C to exit script while running
+#  
+# 
+# function build_call_file($numtocall,$callerid)
+#
+# builds the call file in /tmp 
+build_call_file () {
+echo "Channel: DAHDI/g0/"$1 > /tmp/auto-$1.$2.call
+echo "Callerid: "$2 >> /tmp/auto-$1.$2.call
+echo "WaitTime: 11" >> /tmp/auto-$1.$2.call
+echo "Application: Playback" >> /tmp/auto-$1.$2.call
+echo "Data: silence/2&tt-weasels" >> /tmp/auto-$1.$2.call
+execute_call /tmp/auto-$1.$2.call
+}
+
+# function output_to_screen($numtocall,$callerid)
+#
+# out to screen to track progress
+output_to_screen () {
+echo "Calling: "$1
+echo "Caller ID: "$2
+echo "-----------------------------"
+}
+
+
+# function execute_call($callfile)
+#
+# moves individual call file from /tmp to /var/spool/asterisk/outgoing to execute call
+execute_call () {
+mv $1 /var/spool/asterisk/outgoing/
+}
+
+
+# function execute_call($callfile)
+#
+# moves individual call file from /tmp to /var/spool/asterisk/outgoing to execute call
+execute_call () {
+mv $1 /var/spool/asterisk/outgoing/
+}
+
+# while loop to read in caller id list
+cat callerids.list | while read callerid
+do
+# while loop to read in test numbers to call
+cat testphones.list | while read callto
+do
+
+# call build_call_file() 
+build_call_file $callto $callerid
+# call output_to_screen()
+output_to_screen $callto $callerid
+
+# end loop of test numbers
+done
+
+# wait for calls to fail due to 11 sec WaitTime
+sleep 15
+
+# end loop of caller id list
+done
