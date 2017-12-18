@@ -1,0 +1,91 @@
+#!/bin/bash
+
+#
+# Single Line Outbound Caller ID Check
+#
+# written by Frank Baris
+#
+#
+# v.01 - 12/15/17 -- fork of outbound.callerid.check 
+#
+
+#
+#
+# ./singlelinecheck
+#
+#
+# SYNTAX
+# ---------
+#
+# ./singlelinecheck [CallerID.to.Check] [Test.Line.to.Call]
+#
+# EXAMPLE
+# ---------
+#
+# ./singlelinecheck 303-862-3101 970-420-4200
+# ./singlelinecheck 3038623101 9704204200
+
+
+print_syntax_message () {
+echo
+echo
+echo   SYNTAX
+echo ----------
+echo
+echo $0 [CallerID.to.Check] [Test.Number.to.Call]       
+echo
+echo    EXAMPLE
+echo  -----------
+echo
+echo $0 303-862-3101 970-420-4200         
+echo -or-
+echo $0 3038623101 9704204200
+echo
+echo
+}                                                                                                                        
+                                                                                                                        
+
+
+# function build_call_file($numtocall,$callerid)
+#
+# builds the call file in /tmp 
+build_call_file () {
+echo "Channel: DAHDI/g0/"$1 > /tmp/auto-$1.$2.call
+echo "Callerid: "$2 >> /tmp/auto-$1.$2.call
+echo "WaitTime: 11" >> /tmp/auto-$1.$2.call
+echo "Application: Playback" >> /tmp/auto-$1.$2.call
+echo "Data: silence/3" >> /tmp/auto-$1.$2.call
+execute_call /tmp/auto-$1.$2.call
+}
+
+# function output_to_screen($numtocall,$callerid)
+#
+# out to screen to track progress
+output_to_screen () {
+echo "Outbound Call to: "$1
+echo "Using Caller ID: "$2
+echo "-----------------------------"
+}
+
+
+# function execute_call($callfile)
+#
+# moves individual call file from /tmp to /var/spool/asterisk/outgoing to execute call
+execute_call () {
+mv $1 /var/spool/asterisk/outgoing/
+}
+
+if [ $# -lt 3 ]; then
+
+    if [ $# -gt 1 ]; then
+# call build_call_file() 
+build_call_file $2 $1
+# call output_to_screen()
+output_to_screen $2 $1
+    else
+    	print_syntax_message
+    fi
+   else
+	print_syntax_message
+fi    
+sleep 3
