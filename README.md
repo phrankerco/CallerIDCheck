@@ -9,17 +9,11 @@ Two BASH scripts to interface with Asterisk to auto dial a list of numbers using
 Use the scripts
 
 1. Modify both lists with the numbers you need to check and call
-1a. callerids.list 
-
-(list of outbound called IDs the calls will come from)
-1b. testphones.list
-
-(list of phone numbers to call using the oubound caller IDs from the above list for each call)
+a. callerids.list -- list of outbound called IDs the calls will come from
+b. testphones.list -- list of phone numbers to call using the oubound caller IDs from the above list for each call
 2. ./autocalleridcheck
 
 or
 
-1. ./singlelinecheck 303-303-3031 720-720-7201
-
-(call 720-720-7201 using the outbound caller ID of 303-303-3031)
+1. ./singlelinecheck [CallerID.to.Check] [Test.Line.to.Call]
 
